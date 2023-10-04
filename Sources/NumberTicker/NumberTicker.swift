@@ -15,6 +15,7 @@ public struct NumberTicker: View {
     private var font: Font
     private var topBottomPadding: CGFloat
     private var widthMultiplier: CGFloat
+    private var textColor: Color
     private var fadeColor: Color?
     
     // Properties used for view rendering
@@ -52,6 +53,7 @@ public struct NumberTicker: View {
                 font: Font = .system(size: 30, weight: .bold, design: .rounded),
                 topBottomPadding: CGFloat = 0,
                 widthMultiplier: CGFloat = 1,
+                textColor: Color = Color.black,
                 fadeColor: Color? = nil) {
         self.prefix = prefix
         self.suffix = suffix
@@ -59,6 +61,7 @@ public struct NumberTicker: View {
         self.font = font
         self.topBottomPadding = topBottomPadding
         self.widthMultiplier = widthMultiplier
+        self.textColor = textColor
         self.fadeColor = fadeColor
         
         numberComponentsManager.setup(for: number, decimalPlaces: decimalPlaces, numberStyle: numberStyle, locale: locale)
