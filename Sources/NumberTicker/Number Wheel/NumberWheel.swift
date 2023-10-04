@@ -11,6 +11,7 @@ internal struct NumberWheel: View {
     public var visibleNumber: Int = 0
     public var animation: Animation? = .default
     public var font: Font
+    public var textColor: Color
     
     private let numbers = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     
@@ -26,7 +27,7 @@ internal struct NumberWheel: View {
     public var body: some View {
         VStack(spacing: 0) {
             ForEach(self.numbers, id: \.self) { number in
-                SingleNumberElement(number: number, font: self.font, frame: self.$frame)
+                SingleNumberElement(number: number, font: self.font, textColor: self.textColor, frame: self.$frame)
             }
         }
         .frame(width: frame.width, height: frame.height)

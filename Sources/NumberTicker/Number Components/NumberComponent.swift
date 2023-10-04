@@ -11,18 +11,21 @@ internal struct NumberComponent: View {
     public var numberComponent: NumberComponentsManager.NumberComponent
     public var animation: Animation? = .default
     public var font: Font
+    public var textColor: Color
+    public var accessaryPaddingEnabled: Bool
     
     private var digit: Int?
     private var nonDigit: String?
     
     @Binding public var digitFrame: CGSize
     
-    public init(numberComponent: NumberComponentsManager.NumberComponent,
-         animation: Animation? = .default, font: Font,
-         digitFrame: Binding<CGSize>) {
+    public init(numberComponent: NumberComponentsManager.NumberComponent, animation: Animation? = .default,
+                font: Font, textColor: Color = Color.black, accessaryPaddingEnabled: Bool = true, digitFrame: Binding<CGSize>) {
         self.numberComponent = numberComponent
         self.animation = animation
         self.font = font
+        self.textColor = textColor
+        self.accessaryPaddingEnabled = accessaryPaddingEnabled
         self._digitFrame = digitFrame
         
         digit = getDigit(from: numberComponent)
@@ -32,9 +35,10 @@ internal struct NumberComponent: View {
     public var body: some View {
         Group {
             if digit != nil {
-                NumberWheel(visibleNumber: digit!, animation: self.animation, font: self.font, frame: self.$digitFrame)
+                NumberWheel(visibleNumber: digit!, animation: self.animation, font: self.font, textColor: self.textColor, frame: self.$digitFrame)
             } else if nonDigit != nil {
-                NumberStyleAccessory(symbol: nonDigit!, font: self.font)
+                NumberStyleAccessory(symbol: nonDigit!, font: self.font, textColor: self.textColor,
+                                     accessaryPaddingEnabled: self.accessaryPaddingEnabled)
                     .animation(.none)
             }
         }

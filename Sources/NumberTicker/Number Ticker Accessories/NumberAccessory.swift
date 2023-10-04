@@ -16,6 +16,8 @@ internal struct NumberAccessory: View {
     public var text: String
     public var style: Style
     public var font: Font
+    public var textColor: Color
+    public var accessaryPaddingEnabled: Bool
     
     private var paddingEdge: Edge.Set {
         switch style {
@@ -29,6 +31,7 @@ internal struct NumberAccessory: View {
     public var body: some View {
         Text(text)
             .font(font)
-            .padding(paddingEdge, 2)
+            .foregroundColor(textColor)
+            .padding(paddingEdge, accessaryPaddingEnabled ? 2 : 0)
     }
 }
