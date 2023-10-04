@@ -17,6 +17,7 @@ public struct NumberTicker: View {
     private var widthMultiplier: CGFloat
     private var textColor: Color
     private var fadeColor: Color?
+    private var accessaryPaddingEnabled: Bool
     
     // Properties used for view rendering
     private var numberComponentsManager = NumberComponentsManager()
@@ -42,7 +43,9 @@ public struct NumberTicker: View {
     ///   - shouldAnimateToInitialNumber: Whether or not the NumberTicker should animate to the initial number that is set when NumberTicker first appears. Defaults to false.
     ///   - font: The font used for the number as well as prefix and suffix. This directly impacts the size of the NumberTicker.
     ///   - topBottomPadding: Extra padding for the top and bottom of the NumberTicker. This increases the amount of space between each digit in each number column and directly impacts the overall sizing of the NumberTicker.
+    ///   - textColor: The color used to set whole number text.
     ///   - fadeColor: The color used to add a gradient fade to the top and bottom of the NumberTicker. Note: Fade effect will only show if both the fadeColor is set and topBottomPadding is greater than 0.
+    ///   - accessaryPaddingEnabled: Whether or not set horizontal padding for accessary.
     public init(number: Double,
                 decimalPlaces: Int = 0,
                 numberStyle: NumberFormatter.Style = .none,
@@ -54,7 +57,8 @@ public struct NumberTicker: View {
                 topBottomPadding: CGFloat = 0,
                 widthMultiplier: CGFloat = 1,
                 textColor: Color = Color.black,
-                fadeColor: Color? = nil) {
+                fadeColor: Color? = nil,
+                accessaryPaddingEnabled: Bool = true) {
         self.prefix = prefix
         self.suffix = suffix
         self.shouldAnimateToInitialNumber = shouldAnimateToInitialNumber
@@ -63,6 +67,7 @@ public struct NumberTicker: View {
         self.widthMultiplier = widthMultiplier
         self.textColor = textColor
         self.fadeColor = fadeColor
+        self.accessaryPaddingEnabled = accessaryPaddingEnabled
         
         numberComponentsManager.setup(for: number, decimalPlaces: decimalPlaces, numberStyle: numberStyle, locale: locale)
     }
@@ -70,16 +75,18 @@ public struct NumberTicker: View {
     public var body: some View {
         HStack(spacing: 0) {
             if !prefix.isEmpty {
-                NumberAccessory(text: prefix, style: .prefix, font: font)
+                NumberAccessory(text: prefix, style: .prefix, font: font, textColor: textColor, accessaryPaddingEnabled: accessaryPaddingEnabled)
                     .animation(.none)
             }
             ForEach(0..<numberComponentsManager.numberComponents.count, id: \.self) { index in
                 HStack(spacing: 0) {
-                    NumberComponent(numberComponent: self.numberComponentsManager.getNumberComponent(at: index), animation: self.animation, font: self.font, digitFrame: self.$digitFrame)
+                    NumberComponent(numberComponent: self.numberComponentsManager.getNumberComponent(at: index), animation: self.animation,
+                                    font: self.font, textColor: self.textColor, accessaryPaddingEnabled: self.accessaryPaddingEnabled,
+                                    digitFrame: self.$digitFrame)
                 }
             }
             if !suffix.isEmpty {
-                NumberAccessory(text: suffix, style: .suffix, font: font)
+                NumberAccessory(text: suffix, style: .suffix, font: font, textColor: textColor, accessaryPaddingEnabled: accessaryPaddingEnabled)
                     .animation(.none)
             }
         }

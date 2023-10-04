@@ -10,10 +10,13 @@ import SwiftUI
 internal struct NumberStyleAccessory: View {
     public var symbol: String
     public var font: Font
+    public var textColor: Color
+    public var accessaryPaddingEnabled: Bool
     
     public var body: some View {
         Text(symbol)
             .font(font)
-            .padding([.leading, .trailing], 1)
+            .foregroundColor(textColor)
+            .padding([.leading, .trailing], accessaryPaddingEnabled ? 1 : 0)
     }
 }
